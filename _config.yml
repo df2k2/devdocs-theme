@@ -1,98 +1,147 @@
-title: Magento Documentation Theme
-description: Templates, styles and scripts for all Magento Documentation portals.
-logo: Docs Theme
+# This file contains configuration settings for the devdocs website.
+# Each setting is available on pages using Liquid {{ site.<config key> }}. For example, {{ site.title }}.
+# For more details about available options and defaults, refer to https://jekyllrb.com/docs/configuration/
+#
+title: Magento 2 Developer Documentation
+logo: Magento DevDocs
+description: Magento 2 Developer Documentation.
+
+# the base protocol and domain
+url: https://df2k2.github.io
+
+# Site theme: https://github.com/magento-devdocs/devdocs-theme
+# About themes in Jekyll: https://jekyllrb.com/docs/themes/
+theme: devdocs
+
+# A part of URL to be inserted between site.url and page.url
 baseurl: ""
-permalink: pretty
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
-version: 8
 
-markdown: kramdown
-highlighter: rouge
-kramdown:
-  syntax_highlighter_opts:
-    css_class: 'highlighter'
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
+source: src
 
-environment: develop
+plugins_dir: ./_plugins
+
+# Parameters for the version switcher. Numeric values must be wrapped in quotes.
+#
+version: "2.4"
+versions:
+  -
+    name: "2.3"
+    url: /guides/v2.3/
+  -
+    name: "2.4"
+    url: /guides/v2.4/
+
 
 collections:
   videos:
     output: true
     permalink: "/videos/:path/"
 
-github_link: true
-feedback_link: true
-
-# This will force "default" layout for all of the pages, if not specified
+# Specific settings for different scopes.
+#
 defaults:
+
   -
     scope:
-      path: "" # an empty string here means all files in the project
+      path: ""
     values:
-      layout: "default"
-      lang: "en"
+      lang: en
+      layout: default
+      github_repo: https://github.com/df2k2/devdocs-theme/
+      github_files: https://github.com/df2k2/devdocs-theme/blob/master/
+      # Enables the 'Edit this page on GitHub' appearances on pages
       github_link: true
+      # Enables the 'Give us feedback' appearances on pages
       feedback_link: true
-      github_files: https://github.com/magento-devdocs/devdocs-theme/blob/
-      github_repo: https://github.com/magento-devdocs/devdocs-theme/
-      
-  -
+  
+  - 
     scope:
-      path: "video"
-      type: videos
+      path: guides/v2.3
     values:
-      layout: video
-      guide_version: "2.1"
+      guide_version: '2.3'
 
 
+##########################
+# Plugins and extensions #
+##########################
+#
+# For more details about plugins, refer to https://jekyllrb.com/docs/plugins/
+# To learn more about particular plugin, find it by name on GitHub.
+# This list doesn't include custom plugins.
+#
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-redirect-from
+  - jekyll-relative-links
+  - jekyll-sitemap
+  - jekyll-titles-from-headings
+
+optional_front_matter:
+  remove_originals: true
+
+# Configuration options for the jekyll-relative-links plugin. 
+# Exclude all .md directories and files except page-builder/ to prevent painfully long build times.
+
+relative_links:
+  enabled:     true
+  collections: false
+  exclude:
+    - 404.md
+    - codelinks
+    - community
+    - extensions
+    - guides
+    - redoc
+    - release
+    - search
+    - system-requirements.md
+    - whats-new.md
+
+# Settings for the jekyll-titles-from-headings plugin.
+# For more details about the plugin, refer to https://github.com/benbalter/jekyll-titles-from-headings
+#
+titles_from_headings:
+  enabled:     true
+  strip_title: true
+  collections: false
+
+# kramdown parser settings (extended Markdown to HTML parser). For more details about available options, refer to https://kramdown.gettalong.org/converter/html.html
+#
+kramdown:
+  toc_levels: 2..3
+  syntax_highlighter_opts:
+    css_class: highlighter
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+
+# Search engine settings. For more details, refer to https://github.com/algolia/jekyll-algolia
+#
 algolia:
-  application_id: 'E642SEDTHL'
-  index_name: 'devdocs'
-  api_key: 'd2d0f33ab73e291ef8d88d8b565e754c'
-  lazy_update: true
-  excluded_files:
-    - vagrant
-    - common
-    - js
-    - i
-    - schemas
+  application_id: E642SEDTHL
+  index_name: devdocs
+  api_key: d2d0f33ab73e291ef8d88d8b565e754c
+
+google:
+  gtm: GTM-BB
+
+# Toggles the _plugin/html-check-hook.rb script that checks links in the generated HTML
+#
+check_links: true
+
+#############
+# Variables #
+#############
+#
+# Magento 2 repository
+mage2bloburl: https://github.com/magento/magento2/blob
+
+# Current version
+gdeurl: /guides/v2.4
+
+# Path to S3 location where we store large downloadable binary files, such as .ai, .psd, .zip, .pdf, .sketch
+downloads: https://devdocs.magento.com/download
 
 exclude:
-  - Gemfile
-  - Gemfile.lock
-  - package.json
-  - vagrant.sh
-  - README.md
-  - node_modules
-  - vendor
   - .git
-  - .idea
-
-app_switcher:
-  apps: 
-    - label: Developer
-      children:
-
-      - label: Commerce Developer Documentation
-        url: https://devdocs.magento.com/
-
-      - label: PWA Studio
-        url: http://pwastudio.io/
-
-      - label: Order Management
-        url: https://omsdocs.magento.com/
-
-    - label: Merchant
-      children:
-
-      - label: Commerce User Guide
-        url: https://docs.magento.com/user-guide/
-
-      - label: Order Management
-        url: https://omsdocs.magento.com/userguides/
-
-      - label: Business Intelligence
-        url: https://docs.magento.com/mbi/
